@@ -1,48 +1,49 @@
 package Main;
 
-import Packets.Intercept;
+import java.util.ArrayList; 
+
+import Packets.Server;
+import Packets.Client;
 import Threads.*;
 
-public class Main implements ThreadManager{	
+public class Main{	
+	public static ArrayList<ThreadHandler> threads = new ArrayList<ThreadHandler>();
+	
 	public static void main(String[] args) {
-		((ThreadManager) threads).createThreads();
-		((ThreadManager) threads).startThreads();
+		createThreads();
+		startThreads();
 	}
 	
-	@Override
-	public void createThreads() {
-		Intercept intercept = new Intercept();
+	public static void createThreads() {
+		Server send = new Server();
+		Client intercept = new Client("localhost");
+		threads.add(send);
 		threads.add(intercept);
 	}
 
-	@Override
-	public void startThreads() {
+	public static void startThreads() {
 		for (ThreadHandler th : threads) {
 			th.start();
 		}
 		
 	}
 
-	@Override
-	public void stopThreads() {
+	public static void stopThreads() {
 		for (ThreadHandler th : threads) {
 			th.stopProcess();
 		}
 	}
 
-	@Override
-	public void createThread(ThreadHandler th) {
+	public static void createThread(ThreadHandler th) {
 		//th.add();
 		
 	}
 
-	@Override
-	public void startThread(ThreadHandler th) {
+	public static void startThread(ThreadHandler th) {
 		th.start();
 	}
 
-	@Override
-	public void stopThread(ThreadHandler th) {
+	public static void stopThread(ThreadHandler th) {
 		th.stopProcess();
 	}
 	
